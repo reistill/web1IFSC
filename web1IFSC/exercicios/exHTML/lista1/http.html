@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>HTTP na Prática</title>
+</head>
+<body>
+    <h1>HTTP na Prática: Requisição e Resposta</h1>
+
+    <hr>
+
+    <h2>Menu de Navegação</h2>
+
+    <ul>
+        <li><a href="index.html">Página Inicial</a></li>
+        <li><a href="historia_web.html">História da Web</a></li>
+        <li><a href="http.html">HTTP</a></li>
+        <li><a href="curriculo.html">Currículo</a></li>
+        <li><a href="contato.html">Contato</a></li>
+    </ul>
+
+    <hr>
+
+    <h2>O que é HTTP?</h2>
+
+    <p>
+        HTTP (HyperText Transfer Protocol) é o protocolo responsável pela
+        comunicação entre navegadores e servidores na Web.
+        Sempre que um usuário acessa um site, o navegador envia uma solicitação
+        ao servidor e recebe uma resposta contendo os dados da página.
+    </p>
+
+    <hr>
+
+    <h2>O Papel do HTTP na Comunicação</h2>
+
+    <p>
+        O HTTP funciona como uma linguagem de comunicação entre o
+        <strong>cliente</strong> (navegador) e o
+        <strong>servidor</strong> (computador que hospeda o site).
+    </p>
+
+    <p>
+        Quando o usuário digita um endereço web, o navegador envia uma
+        <strong>requisição HTTP</strong>. O servidor processa o pedido e retorna
+        uma <strong>resposta HTTP</strong>, que pode conter páginas HTML,
+        imagens, vídeos ou outros recursos.
+    </p>
+
+    <hr>
+
+    <h2>Cliente, Servidor, Requisição e Resposta</h2>
+
+    <h3>Cliente</h3>
+    <p>
+        É o programa utilizado pelo usuário para acessar a Web,
+        como Google Chrome, Firefox ou Edge.
+    </p>
+
+    <h3>Servidor</h3>
+    <p>
+        É o computador responsável por armazenar e fornecer os arquivos
+        de um site quando solicitado.
+    </p>
+
+    <h3>Requisição</h3>
+    <p>
+        Mensagem enviada pelo cliente ao servidor solicitando algum recurso.
+    </p>
+
+    <h3>Resposta</h3>
+    <p>
+        Mensagem enviada pelo servidor ao cliente contendo o resultado da solicitação.
+    </p>
+
+    <hr>
+
+    <h2>Métodos HTTP</h2>
+
+    <h3>GET</h3>
+    <p>
+        Utilizado para solicitar informações ao servidor.
+        É o método mais comum para acessar páginas web.
+    </p>
+
+    <h3>POST</h3>
+    <p>
+        Utilizado para enviar dados ao servidor, como formulários de cadastro,
+        login ou envio de mensagens.
+    </p>
+
+    <hr>
+
+    <h2>Exemplo de Requisição HTTP</h2>
+
+    <pre>
+GET /index.html HTTP/1.1
+Host: www.exemplo.com
+User-Agent: Mozilla/5.0
+Accept: text/html
+    </pre>
+
+    <p>
+        Nesse exemplo, o navegador solicita o arquivo <strong>index.html</strong>
+        ao servidor.
+    </p>
+
+    <hr>
+
+    <h2>Exemplo de Resposta HTTP</h2>
+
+    <pre>
+HTTP/1.1 200 OK
+Content-Type: text/html
+
+&lt;html&gt;
+    &lt;body&gt;
+        Página carregada com sucesso.
+    &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+
+    <p>
+        O servidor responde com o código 200, indicando sucesso na solicitação.
+    </p>
+
+    <hr>
+
+    <h2>Principais Códigos de Status HTTP</h2>
+
+    <table border="1">
+        <tr>
+            <th>Código</th>
+            <th>Descrição</th>
+            <th>Significado</th>
+        </tr>
+
+        <tr>
+            <td>200</td>
+            <td>OK</td>
+            <td>A requisição foi processada com sucesso.</td>
+        </tr>
+
+        <tr>
+            <td>301</td>
+            <td>Moved Permanently</td>
+            <td>O recurso foi movido permanentemente para outro endereço.</td>
+        </tr>
+
+        <tr>
+            <td>400</td>
+            <td>Bad Request</td>
+            <td>A requisição enviada possui erro de sintaxe.</td>
+        </tr>
+
+        <tr>
+            <td>403</td>
+            <td>Forbidden</td>
+            <td>O acesso ao recurso foi negado pelo servidor.</td>
+        </tr>
+
+        <tr>
+            <td>404</td>
+            <td>Not Found</td>
+            <td>O recurso solicitado não foi encontrado.</td>
+        </tr>
+
+        <tr>
+            <td>500</td>
+            <td>Internal Server Error</td>
+            <td>Ocorreu um erro interno no servidor.</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h2>Fluxo de Comunicação HTTP</h2>
+
+    <ol>
+        <li>O usuário digita o endereço de um site.</li>
+        <li>O navegador envia uma requisição HTTP.</li>
+        <li>O servidor recebe e processa a solicitação.</li>
+        <li>O servidor envia uma resposta HTTP.</li>
+        <li>O navegador exibe o conteúdo ao usuário.</li>
+    </ol>
+
+    <hr>
+
+    <h2>Resumo</h2>
+
+    <p>
+        O protocolo HTTP é fundamental para o funcionamento da Web,
+        permitindo a comunicação entre clientes e servidores.
+        Por meio de requisições e respostas, os usuários conseguem acessar
+        páginas, enviar dados e utilizar aplicações web modernas.
+    </p>
+
+    <!-- Autor: Joel Reis Till | Turma: ADS | Data: 15/06/2026 -->
+</body>
+</html>
