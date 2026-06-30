@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloco de Notas</title>
+    <link rel="stylesheet" href="notas.css">
+</head>
+
+<body>
+
+    <h1>Cronômetro</h1>
+
+<div id="tempo">00:00:00</div>
+
+<button id="iniciar">Iniciar</button>
+<button id="pausar">Pausar</button>
+<button id="parar">Parar</button>
+
+<h2>Pausas</h2>
+
+<ul id="listaPausas"></ul>
+
+<script>
+    const tempo = document.getElementById("tempo");
+    const lista = document.getElementById("listaPausas");
+
+    const btnIniciar = document.getElementById("iniciar");
+    const btnPausar = document.getElementById("pausar");
+    const btnParar = document.getElementById("parar");
+
+    let inicio;
+    let intervalo;
+
+    function iniciar(){
+
+        inicio = new Date();
+
+        clearInterval(intervalo);
+
+        intervalo = setInterval(atualizar,1000);
+
+    }
+
+    function atualizar(){
+
+        let agora = new Date();
+
+        let diferenca = agora - inicio;
+
+        let tempo = new Date(diferenca);
+
+        document.getElementById("tempo").textContent =
+
+            String(tempo.getUTCHours()).padStart(2,"0")+":"+
+            String(tempo.getUTCMinutes()).padStart(2,"0")+":"+
+            String(tempo.getUTCSeconds()).padStart(2,"0");
+
+    }
+
+    function pausar(){
+
+        clearInterval(intervalo);
+
+        let item = document.createElement("li");
+
+        item.textContent = document.getElementById("tempo").textContent;
+
+        document.getElementById("listaPausas").appendChild(item);
+
+    }
+
+    function parar(){
+
+        clearInterval(intervalo);
+
+        tempo.textContent = "00:00:00";
+
+    }
+
+    btnIniciar.addEventListener("click", iniciar);
+
+    btnPausar.addEventListener("click", pausar);
+
+    btnParar.addEventListener("click", parar);
+
+    document.addEventListener("keydown", function(event){
+        if(event.key=="s"){
+
+            iniciar();
+
+        }
+
+        if(event.key=="p"){
+
+            pausar();
+
+        }
+
+        if(event.key=="r"){
+
+            parar();
+
+        }
+
+    });
+
+</script>
+
+</body>
+
+</html>
