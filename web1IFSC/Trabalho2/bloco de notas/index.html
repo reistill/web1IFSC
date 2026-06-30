@@ -1,224 +1,221 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bloco de Notas</title>
-    <link rel="stylesheet" href="notas.css">
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f2f2f2;
+        }
+
+        .container{
+
+            width:700px;
+            margin:30px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0px 0px 10px gray;
+
+        }
+
+        input{
+
+            width:100%;
+            padding:10px;
+            margin-bottom:10px;
+
+        }
+
+        textarea{
+
+            width:100%;
+            height:180px;
+            padding:10px;
+            margin-bottom:10px;
+
+        }
+
+        button{
+
+            padding:10px 20px;
+            margin-right:10px;
+            cursor:pointer;
+
+        }
+
+        ul{
+
+            list-style:none;
+            padding:0;
+
+        }
+
+        li{
+
+            background:#eeeeee;
+            margin:5px 0;
+            padding:10px;
+            cursor:pointer;
+
+        }
+
+        li:hover{
+
+            background:#dcdcdc;
+
+        }
+
+    </style>
+
 </head>
 
 <body>
-
     <div class="container">
 
         <h1>Bloco de Notas</h1>
 
         <label>Título</label>
 
-        <input type="text" id="titulo" style="width:100%;padding:10px;">
+        <input type="text" id="titulo" placeholder="Título da nota">
 
-        <br><br>
+        <label>Texto</label>
 
-        <label>Nota</label>
-
-        <textarea id="texto"></textarea>
+        <textarea id="texto" placeholder="Digite sua nota"></textarea>
 
         <br>
 
-        <button onclick="novaNota()">
-            Nova
-        </button>
-
-        <button onclick="salvarNota()">
-            Salvar
-        </button>
-
-        <button onclick="excluirNota()">
-            Excluir
-        </button>
+        <button id="salvar">Salvar</button>
+        <button id="nova">Nova</button>
+        <button id="excluir">Excluir</button>
 
         <hr>
 
-        <h2>Minhas Notas</h2>
-        
-        <ul id="listaNotas"></ul>
+        <h2>Notas Salvas</h2>
 
+        <ul id="listaNotas"></ul>
     </div>
 
 <script>
+    const titulo = document.getElementById("titulo");
+    const texto = document.getElementById("texto");
+    const lista = document.getElementById("listaNotas");
 
-class Nota{
+    const btnSalvar = document.getElementById("salvar");
+    const btnNova = document.getElementById("nova");
+    const btnExcluir = document.getElementById("excluir");
 
-    constructor(id,titulo,texto){
+    listarNotas();
 
-        this.id=id;
+    function salvarNota(){
 
-        this.titulo=titulo;
+        if(titulo.value.trim()==""){
 
-        this.texto=texto;
+            alert("Digite um título.");
 
-    }
+            return;
 
-}
+        }
 
-let notas=[];
+        let nota = {
 
-let indiceSelecionado=-1;
+            titulo: titulo.value,
 
-carregar();
-
-listar();
-
-function carregar(){
-
-    let dados=localStorage.getItem("notas");
-
-    if(dados){
-
-        notas=JSON.parse(dados);
-
-    }
-
-}
-
-function salvarLocal(){
-
-    localStorage.setItem(
-
-        "notas",
-
-        JSON.stringify(notas)
-
-    );
-
-}
-
-function listar(){
-
-    let lista=document.getElementById("listaNotas");
-
-    lista.innerHTML="";
-
-    notas.forEach(function(nota,index){
-
-        let item=document.createElement("li");
-
-        item.innerHTML=nota.titulo;
-
-        item.onclick=function(){
-
-            abrirNota(index);
+            texto: texto.value
 
         };
 
-        lista.appendChild(item);
+        localStorage.setItem(
 
-    });
+            titulo.value,
 
-}
-
-function abrirNota(indice){
-
-    indiceSelecionado=indice;
-
-    document.getElementById("titulo").value=
-
-    notas[indice].titulo;
-
-    document.getElementById("texto").value=
-
-    notas[indice].texto;
-
-}
-
-function novaNota(){
-
-    indiceSelecionado=-1;
-
-    document.getElementById("titulo").value="";
-
-    document.getElementById("texto").value="";
-
-}
-
-function salvarNota(){
-
-    let titulo=document.getElementById("titulo").value.trim();
-
-    let texto=document.getElementById("texto").value.trim();
-
-    if(titulo==""){
-
-        alert("Informe um título.");
-
-        return;
-
-    }
-
-    if(indiceSelecionado==-1){
-
-        let nota=new Nota(
-
-            Date.now(),
-
-            titulo,
-
-            texto
+            JSON.stringify(nota)
 
         );
 
-        notas.push(nota);
+        listarNotas();
+
+        alert("Nota salva!");
 
     }
 
-    else{
+    function listarNotas(){
 
-        notas[indiceSelecionado].titulo=titulo;
+        lista.innerHTML="";
 
-        notas[indiceSelecionado].texto=texto;
+        for(let i=0;i<localStorage.length;i++){
 
-    }
+            let chave = localStorage.key(i);
 
-    salvarLocal();
+            let item = document.createElement("li");
 
-    listar();
+            item.textContent = chave;
 
-    alert("Nota salva com sucesso!");
+            item.onclick = function(){
 
-}
+                abrirNota(chave);
 
-function excluirNota(){
+            }
 
-    if(indiceSelecionado==-1){
+            lista.appendChild(item);
 
-        alert("Selecione uma nota.");
-
-        return;
+        }
 
     }
 
-    let confirmar=confirm(
+    function abrirNota(chave){
 
-        "Deseja realmente excluir esta nota?"
+        let notaJSON = localStorage.getItem(chave);
 
-    );
+        let nota = JSON.parse(notaJSON);
 
-    if(confirmar){
+        titulo.value = nota.titulo;
 
-        notas.splice(indiceSelecionado,1);
-
-        salvarLocal();
-
-        listar();
-
-        novaNota();
+        texto.value = nota.texto;
 
     }
 
-}
+    function novaNota(){
+
+        titulo.value="";
+
+        texto.value="";
+
+    }
+
+    function excluirNota(){
+
+        if(titulo.value==""){
+
+            alert("Selecione uma nota.");
+
+            return;
+
+        }
+
+        if(confirm("Deseja excluir esta nota?")){
+
+            localStorage.removeItem(titulo.value);
+
+            novaNota();
+
+            listarNotas();
+
+        }
+
+    }
+
+    btnSalvar.addEventListener("click", salvarNota);
+
+    btnNova.addEventListener("click", novaNota);
+
+    btnExcluir.addEventListener("click", excluirNota);
 
 </script>
 
 </body>
-
 </html>
