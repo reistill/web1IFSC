@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloco de Notas</title>
+    <link rel="stylesheet" href="notas.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Bloco de Notas</h1>
+
+        <label>Título</label>
+
+        <input type="text" id="titulo" style="width:100%;padding:10px;">
+
+        <br><br>
+
+        <label>Nota</label>
+
+        <textarea id="texto"></textarea>
+
+        <br>
+
+        <button onclick="novaNota()">
+            Nova
+        </button>
+
+        <button onclick="salvarNota()">
+            Salvar
+        </button>
+
+        <button onclick="excluirNota()">
+            Excluir
+        </button>
+
+        <hr>
+
+        <h2>Minhas Notas</h2>
+        
+        <ul id="listaNotas"></ul>
+
+    </div>
+
+<script>
+
+class Nota{
+
+    constructor(id,titulo,texto){
+
+        this.id=id;
+
+        this.titulo=titulo;
+
+        this.texto=texto;
+
+    }
+
+}
+
+let notas=[];
+
+let indiceSelecionado=-1;
+
+carregar();
+
+listar();
+
+function carregar(){
+
+    let dados=localStorage.getItem("notas");
+
+    if(dados){
+
+        notas=JSON.parse(dados);
+
+    }
+
+}
+
+function salvarLocal(){
+
+    localStorage.setItem(
+
+        "notas",
+
+        JSON.stringify(notas)
+
+    );
+
+}
+
+function listar(){
+
+    let lista=document.getElementById("listaNotas");
+
+    lista.innerHTML="";
+
+    notas.forEach(function(nota,index){
+
+        let item=document.createElement("li");
+
+        item.innerHTML=nota.titulo;
+
+        item.onclick=function(){
+
+            abrirNota(index);
+
+        };
+
+        lista.appendChild(item);
+
+    });
+
+}
+
+function abrirNota(indice){
+
+    indiceSelecionado=indice;
+
+    document.getElementById("titulo").value=
+
+    notas[indice].titulo;
+
+    document.getElementById("texto").value=
+
+    notas[indice].texto;
+
+}
+
+function novaNota(){
+
+    indiceSelecionado=-1;
+
+    document.getElementById("titulo").value="";
+
+    document.getElementById("texto").value="";
+
+}
+
+function salvarNota(){
+
+    let titulo=document.getElementById("titulo").value.trim();
+
+    let texto=document.getElementById("texto").value.trim();
+
+    if(titulo==""){
+
+        alert("Informe um título.");
+
+        return;
+
+    }
+
+    if(indiceSelecionado==-1){
+
+        let nota=new Nota(
+
+            Date.now(),
+
+            titulo,
+
+            texto
+
+        );
+
+        notas.push(nota);
+
+    }
+
+    else{
+
+        notas[indiceSelecionado].titulo=titulo;
+
+        notas[indiceSelecionado].texto=texto;
+
+    }
+
+    salvarLocal();
+
+    listar();
+
+    alert("Nota salva com sucesso!");
+
+}
+
+function excluirNota(){
+
+    if(indiceSelecionado==-1){
+
+        alert("Selecione uma nota.");
+
+        return;
+
+    }
+
+    let confirmar=confirm(
+
+        "Deseja realmente excluir esta nota?"
+
+    );
+
+    if(confirmar){
+
+        notas.splice(indiceSelecionado,1);
+
+        salvarLocal();
+
+        listar();
+
+        novaNota();
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
