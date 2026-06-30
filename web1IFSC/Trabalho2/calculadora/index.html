@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link rel="stylesheet" href="estiloCalculadora.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Calculadora</h1>
+
+    <input type="text" id="display" readonly>
+
+    <div class="botoes">
+        <button onclick="adicionar('7')">7</button>
+        <button onclick="adicionar('8')">8</button>
+        <button onclick="adicionar('9')">9</button>
+        <button class="operador" onclick="adicionar('/')">/</button>
+
+        <button onclick="adicionar('4')">4</button>
+        <button onclick="adicionar('5')">5</button>
+        <button onclick="adicionar('6')">6</button>
+        <button class="operador" onclick="adicionar('*')">*</button>
+
+        <button onclick="adicionar('1')">1</button>
+        <button onclick="adicionar('2')">2</button>
+        <button onclick="adicionar('3')">3</button>
+        <button class="operador" onclick="adicionar('-')">-</button>
+
+        <button onclick="adicionar('0')">0</button>
+        <button onclick="adicionar('.')">.</button>
+        <button class="igual" onclick="calcular()">=</button>
+        <button class="operador" onclick="adicionar('+')">+</button>
+
+        <button class="limpar" onclick="limpar()">AC</button>
+        <button onclick="apagar()">DEL</button>
+    </div>
+</div>
+
+<script>
+
+const display=document.getElementById("display");
+
+function adicionar(valor){
+
+    display.value+=valor;
+
+}
+
+function limpar(){
+
+    display.value="";
+
+}
+
+function apagar(){
+
+    display.value=display.value.slice(0,-1);
+
+}
+
+function validarExpressao(expressao){
+
+    /*
+      Permite apenas:
+
+      números
+      +
+      -
+      *
+      /
+      .
+      ()
+      espaços
+
+    */
+
+    let regex=/^[0-9+\-*/().\s]+$/;
+
+    return regex.test(expressao);
+
+}
+
+function calcular(){
+
+    let expressao=display.value;
+
+    if(expressao==""){
+
+        alert("Digite uma expressão.");
+
+        return;
+
+    }
+
+    if(!validarExpressao(expressao)){
+
+        alert("Expressão inválida.");
+
+        return;
+
+    }
+
+    try{
+
+        let resultado=eval(expressao);
+
+        if(resultado===Infinity || isNaN(resultado)){
+
+            throw "erro";
+
+        }
+
+        display.value=resultado;
+
+    }
+
+    catch{
+
+        alert("Erro ao calcular.");
+
+    }
+
+}
+
+document.addEventListener("keydown",function(event){
+
+    const tecla=event.key;
+
+    if(/[0-9+\-*/().]/.test(tecla)){
+
+        adicionar(tecla);
+
+    }
+
+    else if(tecla=="Enter"){
+
+        calcular();
+
+    }
+
+    else if(tecla=="Backspace"){
+
+        apagar();
+
+    }
+
+    else if(tecla=="Escape"){
+
+        limpar();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
